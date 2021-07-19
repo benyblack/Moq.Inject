@@ -8,6 +8,13 @@ namespace Moq.Inject
     public class Injector
     {
 
+        // TODO: Maybe better to make this one private
+        /// <summary>
+        /// Does the same as Moq.Mock<T>().
+        /// If the given type is not mockable, it returns null.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>Mocked object by Moq</returns>
         public static object Of(Type type)
         {
             if (type == null) return null;
@@ -18,6 +25,14 @@ namespace Moq.Inject
             return genericOfMethod.Invoke(null, null);
         }
 
+        /// <summary>
+        /// Create an instance of Given type. It uses inputs to fill constructor paramets.
+        /// Mocked objects are used for missing parameters.
+        /// If a parameter is not mockable it uses default value of that type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputs">To be used as constructor parameters</param>
+        /// <returns>An instance of the given type</returns>
         public static T Create<T>(Dictionary<string, object> inputs)
         {
             var ctors = typeof(T).GetConstructors();
@@ -41,6 +56,12 @@ namespace Moq.Inject
             return GetInstance<T>(parameters.Values.ToArray());
         }
 
+        /// <summary>
+        /// Create an instance of Given type. It also fills constructor parameters by mocked object wherever it is possible.
+        /// If a parameter is not mockable it uses default value of that type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>An instance of the given type</returns>
         public static T Create<T>()
         {
             var ctors = typeof(T).GetConstructors();
@@ -50,15 +71,30 @@ namespace Moq.Inject
             return GetInstance<T>(mockedTypes);
         }
 
+        /// <summary>
+        /// Get default value of the given type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>It returns default value for value types. If the given type is a reference type it returns null.</returns>
         private static object GetDefaultValue(Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;
 
-        // var mockedTypes = types.Select(type => 
-        // There is an extension method named IsMockable is Moq
-        // But it is in a internal class therefore I barrowed the method from this:
-        // https://github.com/moq/moq4/blob/b7b07279c45c29a201399a7fa93764892422e687/src/Moq/Extensions.cs#L229
+        /// <summary>
+        /// There is an extension method named IsMockable in Moq source. 
+        /// But it is in a internal class therefore I barrowed the method from this:
+        /// https://github.com/moq/moq4/blob/b7b07279c45c29a201399a7fa93764892422e687/src/Moq/Extensions.cs#L229
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private static bool IsMockable(Type type) => !type.IsSealed || (type.BaseType == typeof(MulticastDelegate));
 
-        public static T GetInstance<T>(object[] parameters)
+
+        /// <summary>
+        /// Create an instance of an object
+        /// </summary>
+        /// <param name="parameters">To be used as constructor parameters</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static T GetInstance<T>(object[] parameters)
         {
             return (T)Activator.CreateInstance(typeof(T), parameters);
         }
