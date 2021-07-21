@@ -1,9 +1,8 @@
 # Moq.Inject
-When I do unit testing (with the help of Moq) on a project full of controllers or any object that needs dependency injection,
-it happens a lot that changes in the constructor leads to several changes in the unit tests. 
-It would me more annoying when the project is in the early development stage with a lot of changes comming every day.
+When I do unit testing (with [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq)) in a project full of controllers or any object that requires dependency injection, I often notice that a change in the constructor will cause several changes in the unit tests. 
+If the project is in an early development stage with a lot of changes coming every day, this would be even more frustrating.
 
-This library is an easyway to manage this problem. You may need to instanciate your class just with default mock classes:
+This library is an easy way to solve this problem. In some cases, you may need to instantiate your class just with some default mock classes:
 ```csharp
 [Fact]
 public void Test_Something(){
@@ -13,9 +12,7 @@ public void Test_Something(){
     var logger = Mock.Of<ILogger>();
     var controller = new HomeController(worker, configuration, logger);
     
-    // Act
-
-    // Assert ...
+    // Act ...
 }
 ```
 
@@ -27,9 +24,7 @@ public void Test_Something(){
     // Arrange
     var controller = Injector.Create<HomeController>();
     
-    // Act
-
-    // Assert ...
+    // Act ...
 }
 
 ```
@@ -43,9 +38,7 @@ public void Test_Something(){
     logger.Setup(x=> AMethod()).Returns(something);
     var controller = new Injector<Controller>().Add("logger", logger.Object).Create();
     
-    // Act
-
-    // Assert ...
+    // Act ...
 }
 
 ```
