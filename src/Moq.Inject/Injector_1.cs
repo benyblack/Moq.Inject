@@ -1,15 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Moq.Inject
 {
     public class Injector<T>
     {
-        public Dictionary<string, object> Inputs {get; private set;}
+        public Dictionary<string, object> Inputs { get; private set; }
+        private readonly string[] _parametNames;
 
         public Injector()
         {
             Inputs = new Dictionary<string, object>();
+            var ctors = typeof(T).GetConstructors();
+            var ctor = ctors[0];
+            _parametNames = ctor.GetParameters().Select(x => x.Name).ToArray();
         }
 
         /// <summary>
@@ -20,6 +25,15 @@ namespace Moq.Inject
         /// <returns></returns>
         public Injector<T> Add(string name, Object value)
         {
+            if (!_parametNames.Contains(name))
+            {
+                string errorMessage = "Parameter name was not found.";
+                if (_parametNames is { Length: > 0 })
+                {
+                    errorMessage = $"{errorMessage} It can be one of({string.Join(", ", _parametNames)})";
+                }
+                throw new Exception(errorMessage);
+            }
             Inputs.Add(name, value);
             return this;
         }

@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace Moq.Inject.Tests
@@ -12,6 +13,18 @@ namespace Moq.Inject.Tests
             // Assert
             Assert.Equal(2, injector.Inputs.Count);
 
+        }
+
+        [Fact]
+        public void Injector_AddParamDoesNotExistInConstructor_ThrowAnException(){
+            // Arrange
+            var injector = new Injector<ExampleClassHasConstructorWithNonMockableInputs>();
+            
+            // Act
+            var exception = Assert.Throws<Exception>(()=> injector.Add("Name", "Behnam"));
+
+            // Assert
+            Assert.StartsWith("Parameter name was not found.", exception.Message);
         }
 
         [Fact]
