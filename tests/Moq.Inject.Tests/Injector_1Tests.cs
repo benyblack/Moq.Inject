@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Moq.Inject.Tests
@@ -10,7 +7,7 @@ namespace Moq.Inject.Tests
         [Fact]
         public void Injector_AddParam_AddedtoParameterList(){
             // Arrange & Act
-            var injector = new Injector<Class4>().Add("name", "Behnam").Add("age", 12);
+            var injector = new Injector<ExampleClassHasConstructorWithNonMockableInputs>().Add("name", "Behnam").Add("age", 12);
 
             // Assert
             Assert.Equal(2, injector.Inputs.Count);
@@ -20,8 +17,8 @@ namespace Moq.Inject.Tests
         [Fact]
         public void Create_GivenMockableType_ReturnNotNull(){
             // Act
-            var result1 = new Injector<Class3>().Create();
-            var result2 = new Injector<Class4>().Create();
+            var result1 = new Injector<ExampleClassHasConstructorWith2InterfaceInputs>().Create();
+            var result2 = new Injector<ExampleClassHasConstructorWithNonMockableInputs>().Create();
 
             // Assert
             Assert.NotNull(result1);

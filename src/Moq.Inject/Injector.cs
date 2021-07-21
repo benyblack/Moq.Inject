@@ -8,14 +8,13 @@ namespace Moq.Inject
     public class Injector
     {
 
-        // TODO: Maybe better to make this one private
         /// <summary>
-        /// Does the same as Moq.Mock<T>().
+        /// Basically calls Moq.Mock<T>() after some checks on the input.
         /// If the given type is not mockable, it returns null.
         /// </summary>
         /// <param name="type"></param>
         /// <returns>Mocked object by Moq</returns>
-        public static object Of(Type type)
+        private static object Of(Type type)
         {
             if (type == null) return null;
             if (!IsMockable(type)) return null;

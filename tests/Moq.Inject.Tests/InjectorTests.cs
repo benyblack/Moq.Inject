@@ -1,73 +1,31 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
 using Xunit;
 
 namespace Moq.Inject.Tests
 {
     public class InjectorTests
     {
-        [Fact]
-        public void Of_GivenNull_ReturnNull(){
-            // Arrange
-            // Act
-            var result = Injector.Of(null);
-
-            // Assert
-            Assert.Null(result);
-        }
-
-        [Theory]
-        [InlineData(typeof(IMy))]
-        [InlineData(typeof(ICollection))]
-        [InlineData(typeof(IQueryable<List<string>>))]
-        public void Of_GivenType_ReturnAnInstance(Type type)
-        {
-            // Arrange
-            // Act
-            var result = Injector.Of(type);
-
-            // Assert
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public void Of_GivenType_ReturnAMockedObject()
-        {
-            // Arrange
-            var type = typeof(IMy);
-
-            // Act
-            var result = Injector.Of(type);
-            var runtimeProperties = result.GetType().GetProperties();
-
-            // Assert
-            Assert.Contains(runtimeProperties,
-                                x => x.Name == "Mock" && x.ReflectedType.ToString() == "Castle.Proxies.IMyProxy");
-        }
 
         [Fact]
         public void Create_TypeHasConstructorWithoutParameters_ReturnAnInsatnceSameType()
         {
             // Act
-            var result = Injector.Create<Class1>();
+            var result = Injector.Create<ExampleClassWithDefaultConstructor>();
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Class1>(result);
+            Assert.IsType<ExampleClassWithDefaultConstructor>(result);
         }
 
         [Fact]
         public void Create_TypeHasConstructorWithAnInterfaceParameter_ReturnAnInsatnceSameType()
         {
             // Act
-            var result = Injector.Create<Class2>();
+            var result = Injector.Create<ExampleClassHasConstructorWithAnInterfaceInput>();
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Class2>(result);
+            Assert.IsType<ExampleClassHasConstructorWithAnInterfaceInput>(result);
 
         }
 
@@ -75,11 +33,11 @@ namespace Moq.Inject.Tests
         public void Create_TypeHasConstructorWithInterfaceParameters_ReturnAnInsatnceSameType()
         {
             // Act
-            var result = Injector.Create<Class3>();
+            var result = Injector.Create<ExampleClassHasConstructorWith2InterfaceInputs>();
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Class3>(result);
+            Assert.IsType<ExampleClassHasConstructorWith2InterfaceInputs>(result);
 
         }
 
@@ -87,11 +45,11 @@ namespace Moq.Inject.Tests
         public void Create_TypeHasConstructorWithNonMockableParameters_ReturnAnInsatnceSameType()
         {
             // Act
-            var result = Injector.Create<Class4>();
+            var result = Injector.Create<ExampleClassHasConstructorWithNonMockableInputs>();
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Class4>(result);
+            Assert.IsType<ExampleClassHasConstructorWithNonMockableInputs>(result);
 
         }
 
@@ -99,7 +57,7 @@ namespace Moq.Inject.Tests
         public void Create_TypeHasConstructorWithNonMockableParameters_InjectCorrectDefaultValues()
         {
             // Act
-            var result = Injector.Create<Class4>();
+            var result = Injector.Create<ExampleClassHasConstructorWithNonMockableInputs>();
 
             // Assert
             Assert.Equal(0, result.Age);
@@ -112,7 +70,7 @@ namespace Moq.Inject.Tests
             // Act
             var paramDic = new Dictionary<string, object>();
             paramDic.Add("name", "Behnam");
-            var result = Injector.Create<Class4>(paramDic);
+            var result = Injector.Create<ExampleClassHasConstructorWithNonMockableInputs>(paramDic);
 
             // Assert
             Assert.Equal(0, result.Age);

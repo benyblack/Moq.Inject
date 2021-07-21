@@ -2,60 +2,62 @@ using System;
 
 namespace Moq.Inject.Tests
 {
-    public interface IMy
+    public interface IExampleInterface1
     {
         string A();
         int B();
         int Age { get; set; }
     }
 
-    public interface IAm
+    public interface IExampleInterface2
     {
         DateTime C();
         long D();
         string Name { get; set; }
     }
 
-    public class Class1
+    public class ExampleClassWithDefaultConstructor
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
     }
 
-    public class Class2
+    public class ExampleClassHasConstructorWithAnInterfaceInput
     {
 
-        private readonly IMy _my;
-        public Class2(IMy my)
+        private readonly IExampleInterface1 _exampleInterface1;
+        public ExampleClassHasConstructorWithAnInterfaceInput(IExampleInterface1 exampleInterface1)
         {
-            _my = my;
+            _exampleInterface1 = exampleInterface1;
         }
 
     }
 
-    public class Class3
+    public class ExampleClassHasConstructorWith2InterfaceInputs
     {
 
-        private readonly IMy _my;
-        private readonly IAm _am;
-        public Class3(IMy my, IAm am)
+        private readonly IExampleInterface1 _exampleInterface1;
+        private readonly IExampleInterface2 _exampleInterface2;
+        public ExampleClassHasConstructorWith2InterfaceInputs(IExampleInterface1 exampleInterface1, IExampleInterface2 exampleInterface2)
         {
-            _my = my;
-            _am = am;
+            _exampleInterface1 = exampleInterface1;
+            _exampleInterface2 = exampleInterface2;
         }
 
     }
 
-    public class Class4
+    public class ExampleClassHasConstructorWithNonMockableInputs
     {
 
         public int Age;
         public string Name;
-        public Class4(int age, string name)
+        public string[] Siblings;
+        public ExampleClassHasConstructorWithNonMockableInputs(int age, string name, string[] siblings)
         {
             Age = age;
             Name = name;
+            Siblings = siblings;
         }
 
     }
