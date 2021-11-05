@@ -30,12 +30,27 @@ namespace Moq.Inject.Tests
         [Fact]
         public void Create_GivenMockableType_ReturnNotNull(){
             // Act
-            var result1 = new Injector<ExampleClassHasConstructorWith2InterfaceInputs>().Create();
-            var result2 = new Injector<ExampleClassHasConstructorWithNonMockableInputs>().Create();
+            var result1 = new Injector<ExampleClassHasConstructorWithAnInterfaceInput>().Create();
+            var result2 = new Injector<ExampleClassHasConstructorWith2InterfaceInputs>().Create();
+            var result3 = new Injector<ExampleClassHasConstructorWithNonMockableInputs>().Create();
+            
 
             // Assert
             Assert.NotNull(result1);
             Assert.NotNull(result2);
+            Assert.NotNull(result3);
+        }
+
+        [Fact]
+        public void Create_GivenMockableTypeWithComplexConstructor_ReturnNotNull(){
+            // Act
+            var result = new Injector<ExampleClassHasConstructorMixInputs>()
+                .Add("name", "Behnam")
+                .Add("exampleInterface1", Mock.Of<IExampleInterface1>())
+                .Create();
+            
+            // Assert
+            Assert.NotNull(result);
         }
     }
 }

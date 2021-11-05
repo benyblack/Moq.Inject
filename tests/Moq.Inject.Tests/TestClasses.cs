@@ -61,4 +61,21 @@ namespace Moq.Inject.Tests
         }
 
     }
+
+    public class ExampleClassHasConstructorMixInputs
+    {
+
+        public int Age;
+        public string Name;
+        public string[] Siblings;
+        private readonly IExampleInterface1 _exampleInterface1;
+        public ExampleClassHasConstructorMixInputs(int age, string name, string[] siblings, IExampleInterface1 exampleInterface1)
+        {
+            Age = age;
+            Name = name;
+            Siblings = siblings;
+            _exampleInterface1 = exampleInterface1;
+        }
+
+    }
 }
