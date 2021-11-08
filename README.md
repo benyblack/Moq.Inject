@@ -1,4 +1,5 @@
 [![.NET](https://github.com/benyblack/Moq.Inject/actions/workflows/dotnet.yml/badge.svg)](https://github.com/benyblack/Moq.Inject/actions/workflows/dotnet.yml)
+[![Nuget Package](https://img.shields.io/nuget/v/MoqInject)](https://www.nuget.org/packages/MoqInject)
 
 # Moq.Inject
 When I do unit testing (with [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq)) in a project full of controllers or any object that requires dependency injection, I often notice that a change in the constructor will cause several changes in the unit tests. 
