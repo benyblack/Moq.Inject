@@ -7,9 +7,8 @@ namespace Moq.Inject
 {
     public class Injector
     {
-
         /// <summary>
-        /// Basically calls Moq.Mock<T>() after some checks on the input.
+        /// Basically calls Moq.Mock&lt;T&gt;() after some checks on the input.
         /// If the given type is not mockable, it returns null.
         /// </summary>
         /// <param name="type"></param>
@@ -20,8 +19,8 @@ namespace Moq.Inject
             if (!IsMockable(type)) return null;
 
             MethodInfo ofMethod = typeof(Mock).GetMethod("Of", 1, types: new Type[] { });
-            MethodInfo genericOfMethod = ofMethod.MakeGenericMethod(new[] { type });
-            return genericOfMethod.Invoke(null, null);
+            MethodInfo genericOfMethod = ofMethod?.MakeGenericMethod(new[] { type });
+            return genericOfMethod?.Invoke(null, null);
         }
 
         /// <summary>
@@ -37,9 +36,7 @@ namespace Moq.Inject
             var ctors = typeof(T).GetConstructors();
             var ctor = ctors[0];
             var ctorParams = ctor.GetParameters();
-            var types = ctorParams.Select(x => x.ParameterType).ToArray();
-            var names = ctorParams.Select(x => x.ParameterType).ToArray();
-
+            
             SortedDictionary<int, object> parameters = new SortedDictionary<int, object>();
             foreach (var param in ctorParams)
             {
