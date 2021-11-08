@@ -42,7 +42,6 @@ namespace Moq.Inject
             {
                 var value = inputs.Any(x => x.Key == param.Name) ? inputs.First(x => x.Key == param.Name).Value : Of(param.ParameterType);
                 parameters.Add(param.Position, value);
-
             }
             return GetInstance<T>(parameters.Values.ToArray());
         }
@@ -78,7 +77,6 @@ namespace Moq.Inject
         /// <returns></returns>
         private static bool IsMockable(Type type) => !type.IsSealed || (type.BaseType == typeof(MulticastDelegate));
 
-
         /// <summary>
         /// Create an instance of an object
         /// </summary>
@@ -89,6 +87,5 @@ namespace Moq.Inject
         {
             return (T)Activator.CreateInstance(typeof(T), parameters);
         }
-
     }
 }
