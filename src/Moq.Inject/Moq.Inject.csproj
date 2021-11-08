@@ -2,10 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageId>MoqInject</PackageId>
+    <Title>Moq.Inject</Title>
+    <Version>0.1.2</Version>
+    <Authors>Behnam Yousefi Shomali</Authors>
+    <PackageDescription>Create an instance of an object by providing constructor parameters with automatically mocked object using Moq.</PackageDescription>
+    <Copyright>Copyright Behnam Yousefi Shomali $([System.DateTime]::UtcNow.ToString("yyyy"))</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/benyblack/Moq.Inject</PackageProjectUrl>
+    <Tags>Moq;Mocking;unittesting;tdd;testing</Tags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Moq" Version="4.16.1" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.16" />
   </ItemGroup>
 
 </Project>
