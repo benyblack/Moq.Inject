@@ -444,3 +444,5 @@ $RECYCLE.BIN/
 # Test coverage results
 lcov.info
 
+# Codeinspecor result
+inspectcode.xml
