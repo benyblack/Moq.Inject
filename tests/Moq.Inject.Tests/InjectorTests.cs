@@ -68,8 +68,7 @@ namespace Moq.Inject.Tests
         [Fact]
         public void Create_GivenOneParam_SetTheProperty(){
             // Act
-            var paramDic = new Dictionary<string, object>();
-            paramDic.Add("name", "Behnam");
+            Dictionary<string, object> paramDic = new () { { "name", "test" } };
             var result = Injector.Create<ExampleClassHasConstructorWithNonMockableInputs>(paramDic);
 
             // Assert

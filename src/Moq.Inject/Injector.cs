@@ -19,7 +19,7 @@ namespace Moq.Inject
             if (!IsMockable(type)) return null;
 
             MethodInfo ofMethod = typeof(Mock).GetMethod("Of", 1, types: new Type[] { });
-            MethodInfo genericOfMethod = ofMethod?.MakeGenericMethod(new[] { type });
+            MethodInfo genericOfMethod = ofMethod?.MakeGenericMethod(type);
             return genericOfMethod?.Invoke(null, null);
         }
 
@@ -36,18 +36,13 @@ namespace Moq.Inject
             var ctors = typeof(T).GetConstructors();
             var ctor = ctors[0];
             var ctorParams = ctor.GetParameters();
-            
+
             SortedDictionary<int, object> parameters = new SortedDictionary<int, object>();
             foreach (var param in ctorParams)
             {
-                if (inputs.Any(x => x.Key == param.Name))
-                {
-                    parameters.Add(param.Position, inputs.First(x => x.Key == param.Name).Value);
-                }
-                else
-                {
-                    parameters.Add(param.Position, Of(param.ParameterType));
-                }
+                var value = inputs.Any(x => x.Key == param.Name) ? inputs.First(x => x.Key == param.Name).Value : Of(param.ParameterType);
+                parameters.Add(param.Position, value);
+
             }
             return GetInstance<T>(parameters.Values.ToArray());
         }

@@ -6,7 +6,7 @@ namespace Moq.Inject
 {
     public class Injector<T>
     {
-        public Dictionary<string, object> Inputs { get; private set; }
+        public Dictionary<string, object> Inputs { get; }
         private readonly string[] _parametNames;
 
         public Injector()
